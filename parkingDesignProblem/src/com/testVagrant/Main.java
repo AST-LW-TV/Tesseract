@@ -1,5 +1,23 @@
 package com.testVagrant;
 
+/*
+Authors: Niranjan, Prajwal, AST-LW
+
+Time Taken -> Average of 6 hrs
+
+Learned:
+    -> Object oriented programming
+    -> Team Communication
+    -> Finding Solutions together
+    -> Using of git
+    -> Convincing the Team why that approach
+    -> assigning proper variable names
+
+Completed: 98 %
+    -> 1% adding Exception handling
+    -> 1% testing
+ */
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +26,7 @@ public class Main {
 
         Scanner input=new Scanner(System.in);
 
-        TollGate groundFloor=new TollGate();  // initialize the toll gate 
+        TollGate groundFloor=new TollGate();  // initialize the toll gate
 
         System.out.println("********** Welcome to Tesseract Parking Slots **********"+"\n"+
                "       Price is higher "+new String(Character.toChars(0X1F601))+", "+"Safety is our priority "+
