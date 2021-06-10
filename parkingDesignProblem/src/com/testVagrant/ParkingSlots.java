@@ -1,5 +1,6 @@
 package com.testVagrant;
 
+import java.lang.invoke.VarHandle;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -61,7 +62,14 @@ public class ParkingSlots {
     public Vehicle searchTheVehicle(String vehicleRegistrationNumber){
         for(int i=0;i<this.parkingArea.size();i++){
             if(this.parkingArea.get(i).getVehicleRegistrationNumber().equals(vehicleRegistrationNumber));
-                return this.parkingArea.get(i);
+                Vehicle vehicle=this.parkingArea.get(i);
+                this.totalNumberOfSlots+=1;  // incrementing the total parking slots
+                if(vehicle.getVehicleType().equals("car"))
+                    this.carParkingSlots+=1;  // if car is exited increment the car slots
+                else if(vehicle.getVehicleType().equals("bike"))
+                    this.bikeParkingSlots+=1;  // if bike is exited increment the bike slots
+                this.parkingArea.remove(i); // vehicle is removed from the parking slot
+                return vehicle;
             }
         return null;
         }

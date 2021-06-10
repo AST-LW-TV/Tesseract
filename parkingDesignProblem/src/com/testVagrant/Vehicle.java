@@ -4,15 +4,13 @@ import java.util.Date;
 
 public class Vehicle {
     private String vehicleRegistrationNumber;
-    private Date timeOfEntry;
+    private long timeOfEntry;
     private String vehicleType;
     private String purposeOfVisit;
 
-    public Vehicle(String vehicleRegistrationNumber,String vehicleType,
-                    String purposeOfVisit){
+    public Vehicle(String vehicleRegistrationNumber,String vehicleType,String purposeOfVisit){
+        this.timeOfEntry = this.setTimeOfEntry(); // initialising time stamp when the vehicle is entered
         this.vehicleRegistrationNumber=vehicleRegistrationNumber;
-        Date Entry = new Date();
-        timeOfEntry = Entry;
         this.vehicleType=vehicleType;
         this.purposeOfVisit=purposeOfVisit;
     }
@@ -21,9 +19,9 @@ public class Vehicle {
         return this.vehicleRegistrationNumber;
     }
 
-    public Date getTimeOfEntry(){
+    public long getTimeOfEntry(){
         return this.timeOfEntry;
-    } // time format -> 1hr, 2hr
+    }
 
     public String getVehicleType(){
         return this.vehicleType;
@@ -31,6 +29,11 @@ public class Vehicle {
 
     public String getPurposeOfVisit(){
         return this.purposeOfVisit;
+    }
+
+    public long setTimeOfEntry(){
+        Date Entry=new Date();
+        return Entry.getTime();
     }
 
 }
