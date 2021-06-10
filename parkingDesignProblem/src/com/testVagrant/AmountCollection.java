@@ -1,5 +1,6 @@
 package com.testVagrant;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class AmountCollection {
@@ -7,6 +8,7 @@ public class AmountCollection {
     private double totalAmountCollected;
     private float percentageOfDiscount;
     private Vehicle vehicle;
+    Date exitTime;
 
     HashMap<String,Integer> priceCard=new HashMap<String,Integer>();
 
@@ -33,8 +35,9 @@ public class AmountCollection {
         return this.totalAmountCollected;
     }
 
-    public void setTheVehicle(Vehicle vehicle){
+    public void setTheVehicle(Vehicle vehicle, Date exitTime){
         this.vehicle=vehicle;
+        this.exitTime = exitTime;
     }
 
     public void calculateAmount(){
