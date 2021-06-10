@@ -1,15 +1,18 @@
 package com.testVagrant;
 
+import java.util.Date;
+
 public class Vehicle {
     private String vehicleRegistrationNumber;
-    private String timeOfEntry;
+    private Date timeOfEntry;
     private String vehicleType;
     private String purposeOfVisit;
 
-    public Vehicle(String vehicleRegistrationNumber,String timeOfEntry,String vehicleType,
+    public Vehicle(String vehicleRegistrationNumber,String vehicleType,
                     String purposeOfVisit){
         this.vehicleRegistrationNumber=vehicleRegistrationNumber;
-        this.timeOfEntry=timeOfEntry;
+        Date Entry = new Date();
+        timeOfEntry = Entry;
         this.vehicleType=vehicleType;
         this.purposeOfVisit=purposeOfVisit;
     }
@@ -18,7 +21,7 @@ public class Vehicle {
         return this.vehicleRegistrationNumber;
     }
 
-    public String getTimeOfEntry(){
+    public Date getTimeOfEntry(){
         return this.timeOfEntry;
     } // time format -> 1hr, 2hr
 
