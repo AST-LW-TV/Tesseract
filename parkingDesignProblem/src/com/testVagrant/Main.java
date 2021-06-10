@@ -8,7 +8,7 @@ public class Main {
 
         Scanner input=new Scanner(System.in);
 
-        TollGate groundFloor=new TollGate();
+        TollGate groundFloor=new TollGate();  // initialize the toll gate 
 
         System.out.println("********** Welcome to Tesseract Parking Slots **********"+"\n"+
                "       Price is higher "+new String(Character.toChars(0X1F601))+", "+"Safety is our priority "+

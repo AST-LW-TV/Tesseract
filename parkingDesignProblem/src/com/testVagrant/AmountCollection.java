@@ -8,7 +8,7 @@ public class AmountCollection {
     private float percentageOfDiscount;
     private Vehicle vehicle;
     private long exitTime;
-    private int timeToConsider=5;
+    private int timeToConsider=5;  // time to simulate for 1hr
     private static double getTotalAmountCollected;
 
     HashMap<String,Integer> priceCard=new HashMap<String,Integer>();

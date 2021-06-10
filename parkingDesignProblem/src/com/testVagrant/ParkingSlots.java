@@ -1,6 +1,5 @@
 package com.testVagrant;
 
-import java.lang.invoke.VarHandle;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -42,6 +41,7 @@ public class ParkingSlots {
         return this.carParkingSlots;
     }
 
+    // Checking the availability of parking
     public boolean setParking(String vehicleType){
         if(this.totalNumberOfSlots>0){
             this.totalNumberOfSlots-=1;
@@ -55,10 +55,12 @@ public class ParkingSlots {
         }
     }
 
+    // parking the vehicle
     public void parkTheVehicle(Vehicle vehicle){
         this.parkingArea.add(vehicle);
     }
 
+    // exiting the vehicle
     public Vehicle searchTheVehicle(String vehicleRegistrationNumber){
         for(int i=0;i<this.parkingArea.size();i++){
             if(this.parkingArea.get(i).getVehicleRegistrationNumber().equals(vehicleRegistrationNumber));
