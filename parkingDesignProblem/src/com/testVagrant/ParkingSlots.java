@@ -2,79 +2,71 @@ package com.testVagrant;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ParkingSlots {
 
-    private int totalNumberOfSlots;
-    private int bikeParkingSlots;
-    private int carParkingSlots;
+    private static int totalNumberOfSlots;
+    private static int bikeParkingSlots;
+    private static int carParkingSlots;
 
-    List<Vehicle> parkingArea=new ArrayList<Vehicle>();  // parking area is public
+    private static List<Ticket> parkingArea = new ArrayList<>();  // parking area is public
 
-    public ParkingSlots(){
-        this.totalNumberOfSlots=500;
-        this.bikeParkingSlots=200;
-        this.carParkingSlots=300;
+    public ParkingSlots() {
+        this.bikeParkingSlots = 200;
+        this.carParkingSlots = 300;
+        this.totalNumberOfSlots = this.bikeParkingSlots + this.carParkingSlots;
     }
 
-    public ParkingSlots(int totalSlots,int bikeSlots,int carSlots){
-        this.totalNumberOfSlots=totalSlots;
-        this.bikeParkingSlots=bikeSlots;
-        this.carParkingSlots=carSlots;
+    public ParkingSlots(int totalSlots, int bikeSlots, int carSlots) {
+        this.totalNumberOfSlots = totalSlots;
+        this.bikeParkingSlots = bikeSlots;
+        this.carParkingSlots = carSlots;
     }
 
-    public String getTotalFreeSlots(){
-        return "Total Free Slots "+this.totalNumberOfSlots+" Among then Cars have "
-                +this.carParkingSlots+" and Bikes have "+this.bikeParkingSlots;
-    }
-
-    public int[] getFreeVehicleSlots(){
-        int[] temp={this.carParkingSlots,this.bikeParkingSlots};
-        return temp;
-    }
-
-    public void setTotalNumberOfSlots(int bikeSlots,int carSlots){
-        this.totalNumberOfSlots=bikeSlots+carSlots;
-    }
-
-    public int getTotalCarSlots(){
-        return this.carParkingSlots;
+    // gets the free slots ...
+    public String getTotalFreeSlots() {
+        return "Total Free Slots " + this.totalNumberOfSlots + " Among them, Cars have "
+                + this.carParkingSlots + " and Bikes have " + this.bikeParkingSlots;
     }
 
     // Checking the availability of parking
-    public boolean setParking(String vehicleType){
-        if(this.totalNumberOfSlots>0){
-            this.totalNumberOfSlots-=1;
-            if(vehicleType.equals("car"))
-                this.carParkingSlots-=1;
-            else if(vehicleType.equals("bike"))
-                this.bikeParkingSlots-=1;
-            return true;
-        }else{
-            return false;
-        }
+    // returns boolean
+    public static boolean checkParking(String vehicleType) {
+        boolean isAvailable = false;
+        if (vehicleType.equals("car"))
+            isAvailable = carParkingSlots > 0 ? true : false;
+        if (vehicleType.equals("bike"))
+            isAvailable = bikeParkingSlots > 0 ? true : false;
+        return isAvailable;
     }
 
-    // parking the vehicle
-    public void parkTheVehicle(Vehicle vehicle){
-        this.parkingArea.add(vehicle);
+    // Parking the vehicle
+    // vehicle parks in the slot after ticket is issued
+    public void parkTheVehicle(Ticket ticket) {
+        this.parkingArea.add(ticket);
+        totalNumberOfSlots -= 1;
+        if (ticket.getVehicleType().equals("car"))
+            carParkingSlots -= 1;
+        else if (ticket.getVehicleType().equals("bike"))
+            bikeParkingSlots -= 1;
     }
 
-    // exiting the vehicle
-    public Vehicle searchTheVehicle(String vehicleRegistrationNumber){
-        for(int i=0;i<this.parkingArea.size();i++){
-            if(this.parkingArea.get(i).getVehicleRegistrationNumber().equals(vehicleRegistrationNumber));
-                Vehicle vehicle=this.parkingArea.get(i);
-                this.totalNumberOfSlots+=1;  // incrementing the total parking slots
-                if(vehicle.getVehicleType().equals("car"))
-                    this.carParkingSlots+=1;  // if car is exited increment the car slots
-                else if(vehicle.getVehicleType().equals("bike"))
-                    this.bikeParkingSlots+=1;  // if bike is exited increment the bike slots
-                this.parkingArea.remove(i); // vehicle is removed from the parking slot
-                return vehicle;
-            }
-        return null;
-        }
+    // Exiting the vehicle
+    // this method is simulated and automatically gets the vehicle and sends it to the exiting toll ...
+    // returns ticket
+    public static Ticket getTheVehicle() {
+        int length = parkingArea.size();
+        int randomVehicle = new Random().nextInt(length);
+        Ticket ticket = parkingArea.get(randomVehicle);
+        parkingArea.remove(randomVehicle);
+        totalNumberOfSlots += 1;
+        if (ticket.getVehicleType().equals("car"))
+            carParkingSlots += 1;
+        else if (ticket.getVehicleType().equals("bike"))
+            bikeParkingSlots += 1;
+        return ticket;
+    }
 
 }
 

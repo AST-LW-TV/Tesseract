@@ -4,64 +4,43 @@ import java.util.HashMap;
 
 public class AmountCollection {
 
-    private double totalAmountCollected;
-    private float percentageOfDiscount;
-    private Vehicle vehicle;
-    private long exitTime;
-    private int timeToConsider=5;  // time to simulate for 1hr
-    private static double getTotalAmountCollected;
+    private static double totalAmountCollected;
 
-    HashMap<String,Integer> priceCard=new HashMap<String,Integer>();
+    // simulating the time -> 5s is 1hr for this prototype purposes or it can be changed ...
+    private static int timeToConsider = 5;
 
-    // we can add total amount by individuals also -> using hashmaps
+    private static HashMap<String, double[]> priceCard = new HashMap<>();
 
-    public AmountCollection(float discountPrice){
-        this.totalAmountCollected=0;
-        this.percentageOfDiscount=discountPrice;
+    public AmountCollection() {
+        this.totalAmountCollected = 0;
         this.setPriceCard();
     }
 
-    public void setPriceCard() {
-        this.priceCard.put("car",40);
-        this.priceCard.put("bike",20);
+    // dictionary that stores the vehicle type with its price per hour and discount on movie ...
+    // can add other details in future ...
+    private void setPriceCard() {
+        priceCard.put("car", new double[]{40, 0.1});
+        priceCard.put("bike", new double[]{20, 0.1});
     }
 
-    // method overriding
-    public void setPriceCard(String vehicleType,int pricePerHour){ // this is useful to set the price in dynamic mode
-        this.priceCard.put(vehicleType,pricePerHour);
-    }
-
-    public Integer getPriceCard(String vehicleType) {
-        return priceCard.get(vehicleType);
-    }
-
-    public static double getTotalAmountCollected(){
-        return getTotalAmountCollected;
-    }
-
-
-
-    public void setTheVehicle(Vehicle vehicle, long exitTime){
-        this.vehicle=vehicle;
-        this.exitTime = exitTime;
-    }
-
-    public double calculateAmount(){
-        String purposeOfVisit=this.vehicle.getPurposeOfVisit();
-        int pricePerHour=this.getPriceCard(this.vehicle.getVehicleType());
-        int durationInSeconds=(int)(((this.exitTime-this.vehicle.getTimeOfEntry())/1000)%60); // total time vehicle is parked
-        double priceCalculated=this.calculator(pricePerHour,durationInSeconds);
-        if(purposeOfVisit.equals("movie"))
-            priceCalculated=priceCalculated-(priceCalculated*this.percentageOfDiscount);
-        this.totalAmountCollected=this.totalAmountCollected+priceCalculated;
-        getTotalAmountCollected=this.totalAmountCollected;
+    // calculates how much price to be paid ...
+    // returns price calculated
+    public static double calculateAmount(Ticket ticket, long exitTime, String purposeOfVisit) {
+        double priceCalculated;
+        int numberOfHours;
+        double[] priceDetails = priceCard.get(ticket.getVehicleType());
+        int durationInSeconds = (int) (((exitTime - ticket.getEntryTime()) / 1000) % 60);
+        numberOfHours = (int) (durationInSeconds / timeToConsider);
+        priceCalculated = numberOfHours * (priceDetails[0]);
+        priceCalculated = purposeOfVisit.equals("movie") ? priceCalculated - (priceCalculated * priceDetails[1]) : priceCalculated;
+        totalAmountCollected += priceCalculated;
         return priceCalculated;
     }
 
-    private double calculator(int pricePerHour,int durationInSeconds){
-        int numberOfHours=(int)(durationInSeconds/this.timeToConsider);
-        double priceCalculated=numberOfHours*(pricePerHour);
-        return priceCalculated;
+    // gets total amount of time anytime
+    // returns total amount collected
+    public static double getTotalAmountCollected() {
+        return totalAmountCollected;
     }
 
 }
