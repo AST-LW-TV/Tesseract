@@ -8,16 +8,9 @@ public class TollGate {
 
     // entry issues ticket ...
     // returns Ticket Object
-    public Ticket entry() {
-        System.out.println("Enter the Vehicle Type: ");
-        String vehicleType = Input.giveInput();
-        boolean parkingIsAvailable = ParkingSlots.checkParking(vehicleType);
-        if (parkingIsAvailable) {
+    public Ticket entry(String vehicleType) {
             Ticket ticket = new Ticket(vehicleType);  // ticket is issued only of parking is available
             return ticket;
-        } else {
-            return null;
-        }
     }
 
     // exist takes the ticket and calculates the price to be paid ...

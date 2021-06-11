@@ -6,38 +6,36 @@ import java.util.Random;
 
 public class ParkingSlots {
 
-    private static int totalNumberOfSlots;
     private static int bikeParkingSlots;
     private static int carParkingSlots;
 
     private static List<Ticket> parkingArea = new ArrayList<>();  // parking area is public
 
-    public ParkingSlots() {
-        this.bikeParkingSlots = 200;
-        this.carParkingSlots = 300;
-        this.totalNumberOfSlots = this.bikeParkingSlots + this.carParkingSlots;
-    }
-
-    public ParkingSlots(int totalSlots, int bikeSlots, int carSlots) {
-        this.totalNumberOfSlots = totalSlots;
+    public ParkingSlots(int bikeSlots, int carSlots) {
         this.bikeParkingSlots = bikeSlots;
         this.carParkingSlots = carSlots;
     }
 
     // gets the free slots ...
     public String getTotalFreeSlots() {
-        return "Total Free Slots " + this.totalNumberOfSlots + " Among them, Cars have "
-                + this.carParkingSlots + " and Bikes have " + this.bikeParkingSlots;
+        return "Total Free Slots " + ((bikeParkingSlots+carParkingSlots)-parkingArea.size());
     }
 
     // Checking the availability of parking
     // returns boolean
-    public static boolean checkParking(String vehicleType) {
-        boolean isAvailable = false;
-        if (vehicleType.equals("car"))
-            isAvailable = carParkingSlots > 0 ? true : false;
-        if (vehicleType.equals("bike"))
-            isAvailable = bikeParkingSlots > 0 ? true : false;
+    public static boolean checkParking(String vehicleType){
+        int carCount=0,bikeCount=0;
+        boolean isAvailable=false;
+        for(int i=0;i<parkingArea.size();i++){
+            if(parkingArea.get(i).getVehicleType().equals("car"))
+                carCount+=1;
+            else if(parkingArea.get(i).getVehicleType().equals("bike"))
+                bikeCount+=1;
+        }
+        if(vehicleType.equals("car") && (carParkingSlots-carCount)>0)
+            isAvailable=true;
+        if(vehicleType.equals("bike") && (bikeParkingSlots-carCount)>0)
+            isAvailable=true;
         return isAvailable;
     }
 
@@ -45,11 +43,6 @@ public class ParkingSlots {
     // vehicle parks in the slot after ticket is issued
     public void parkTheVehicle(Ticket ticket) {
         this.parkingArea.add(ticket);
-        totalNumberOfSlots -= 1;
-        if (ticket.getVehicleType().equals("car"))
-            carParkingSlots -= 1;
-        else if (ticket.getVehicleType().equals("bike"))
-            bikeParkingSlots -= 1;
     }
 
     // Exiting the vehicle
@@ -60,11 +53,6 @@ public class ParkingSlots {
         int randomVehicle = new Random().nextInt(length);
         Ticket ticket = parkingArea.get(randomVehicle);
         parkingArea.remove(randomVehicle);
-        totalNumberOfSlots += 1;
-        if (ticket.getVehicleType().equals("car"))
-            carParkingSlots += 1;
-        else if (ticket.getVehicleType().equals("bike"))
-            bikeParkingSlots += 1;
         return ticket;
     }
 

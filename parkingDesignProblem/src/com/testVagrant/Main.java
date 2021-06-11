@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ParkingSlots parkingSlots = new ParkingSlots(500, 200, 300); // set the total and individual slots
+        ParkingSlots parkingSlots = new ParkingSlots( 200, 300); // set the individual slots
 
         AmountCollection amountCollection = new AmountCollection();
 
@@ -17,30 +17,36 @@ public class Main {
                 new String(Character.toChars(0X1F60A)) + "\n");
 
         do {
-            System.out.println("Options: " + "\n" + "1. Check the Free Slots" + "\n" + "2. Enter" + "\n" +
-                    "3. Exit" + "\n" +
-                    "4. Total Amount Collected for the Day" + "\n" + "5. End the Program" + "\n");
+            System.out.println("Options: " + "\n" + "1. Check the Free Slots and Issue ticket if available" + "\n"  +
+                    "2. Exit" + "\n" +
+                    "3. Total Amount Collected for the Day" + "\n" + "4. End the Program" + "\n");
 
             System.out.println("Please Enter your Choice: ");
             int choice = Integer.parseInt(Input.giveInput());
-
-            if (choice >= 5)
+            if (choice >= 4)
                 break;
-            else if (choice == 1)
+
+            else if (choice == 1) {
+                System.out.println("Enter the Vehicle Type: ");
+                String vehicleType = Input.giveInput();
+                boolean isAvailable=ParkingSlots.checkParking(vehicleType);
                 System.out.println("\n" + parkingSlots.getTotalFreeSlots() + "\n");
-            else if (choice == 2) {
-                Ticket ticket = groundFloor.entry();
-                if (ticket != null) {
-                    parkingSlots.parkTheVehicle(ticket);
-                    System.out.println("Vehicle is Parked");
-                } else
+                if(isAvailable){
+                    Ticket ticket=groundFloor.entry(vehicleType);
+                    parkingSlots.parkTheVehicle(ticket);  // parking the vehicle ...
+                    System.out.println("\n"+"Vehicle is Parked");
+                }else{
                     System.out.println("The Parking is FULL, Your Vehicle Missed the Best Place " +
                             new String(Character.toChars(0X1F614)) + "\n");
-            } else if (choice == 3) {
+                }
+
+            }else if (choice == 2) {
                 // here the vehicle is automatically existing and gives the ticket to exit ...
                 Ticket ticket = ParkingSlots.getTheVehicle(); // movie or shopping is over so he is exiting and gives the ticket
                 groundFloor.exit(ticket);
-            } else if (choice == 4) {
+            }
+
+            else if (choice == 3) {
                 System.out.println("Total Amount Collected for the Day: " + "Rs " +
                         Math.round(AmountCollection.getTotalAmountCollected()));
                 System.out.println("Don't worry Manager Many more to come... " +

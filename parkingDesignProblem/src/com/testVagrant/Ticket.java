@@ -17,7 +17,7 @@ public class Ticket {
     }
 
     public String setVehicleRegistration(){
-        System.out.println("Enter the Vehicle Registration Number: ");
+        System.out.println("Enter the Vehicle Registration Number to Issue Ticket: ");
         return input.nextLine();
     }
 
